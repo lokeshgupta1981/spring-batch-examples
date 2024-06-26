@@ -1,0 +1,6 @@
+[
+ {"firstName":"Lokesh","lastName":"Gupta","age":41,"active":true},
+ {"firstName":"Brian","lastName":"Schultz","age":42,"active":false},
+ {"firstName":"John","lastName":"Cena","age":43,"active":true},
+ {"firstName":"Albert","lastName":"Pinto","age":44,"active":false}
+]
