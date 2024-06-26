@@ -1,6 +1,5 @@
 package com.howtodoinjava.demo.jsonReaderWriter;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.howtodoinjava.demo.model.Person;
 import com.howtodoinjava.demo.processor.LoggingPersonProcessor;
 import org.springframework.batch.core.Job;
@@ -20,17 +19,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.WritableResource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
-
-import java.text.SimpleDateFormat;
 
 @Configuration
 @SpringBootApplication
+@SuppressWarnings("unused")
 public class JsonReaderJobConfig {
 
   @Value("classpath:person.json")

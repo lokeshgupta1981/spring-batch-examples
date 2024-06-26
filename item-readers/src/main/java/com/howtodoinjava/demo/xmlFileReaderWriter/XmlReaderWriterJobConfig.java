@@ -25,6 +25,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @SpringBootApplication
+@SuppressWarnings("unused")
 public class XmlReaderWriterJobConfig {
 
   @Value("classpath:person.xml")

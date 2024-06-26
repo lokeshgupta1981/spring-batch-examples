@@ -26,6 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @SpringBootApplication
+@SuppressWarnings("unused")
 public class JobConfig {
 
   @Value("classpath:person.csv")
