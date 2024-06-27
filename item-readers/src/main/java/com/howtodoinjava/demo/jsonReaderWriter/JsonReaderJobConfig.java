@@ -1,5 +1,6 @@
 package com.howtodoinjava.demo.jsonReaderWriter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.howtodoinjava.demo.model.Person;
 import com.howtodoinjava.demo.processor.LoggingPersonProcessor;
 import org.springframework.batch.core.Job;
@@ -26,7 +27,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @SpringBootApplication
-@SuppressWarnings("unused")
 public class JsonReaderJobConfig {
 
   @Value("classpath:person.json")
@@ -60,14 +60,14 @@ public class JsonReaderJobConfig {
   @StepScope
   public JsonItemReader<Person> personJsonItemReader() {
 
-    /*ObjectMapper objectMapper = new ObjectMapper();
+    ObjectMapper objectMapper = new ObjectMapper();
     //customize objectMapper if needed
-    JacksonJsonObjectReader<Person> jsonObjectReader = new JacksonJsonObjectReader<>(Person.class);
-    jsonObjectReader.setMapper(objectMapper);*/
+    JacksonJsonObjectReader<Person> jsonObjectReader
+          = new JacksonJsonObjectReader<>(objectMapper, Person.class);
 
     return new JsonItemReaderBuilder<Person>()
         .name("personJsonItemReader")
-        .jsonObjectReader(new JacksonJsonObjectReader<>(Person.class))
+        .jsonObjectReader(jsonObjectReader)
         .resource(jsonFile)
         .build();
   }
@@ -83,7 +83,6 @@ public class JsonReaderJobConfig {
         .jsonObjectMarshaller(new JacksonJsonObjectMarshaller<>())
         .resource(outputJsonFile)
         .build();
-
   }
 
   public static void main(String[] args) {

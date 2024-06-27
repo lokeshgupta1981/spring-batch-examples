@@ -16,14 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.WritableResource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Configuration
 @SpringBootApplication
 @SuppressWarnings("unused")
 public class XmlReaderWriterJobConfig {
@@ -62,19 +60,18 @@ public class XmlReaderWriterJobConfig {
         .name("personXmlFileReader")
         .resource(xmlFile)
         .addFragmentRootElements("person")
-        .unmarshaller(personMarshaller())
+        .unmarshaller(jaxb2Marshaller())
         .build();
   }
 
   @Bean
-  public StaxEventItemWriter<Person> personXmlFileWriter() {
+  public StaxEventItemWriter<Person> personXmlFileWriter(ResourceLoader resourceLoader) {
 
-    PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-    WritableResource outputXml = (WritableResource) resolver.getResource("file:output-person.xml");
+    WritableResource outputXml = (WritableResource) resourceLoader.getResource("file:output-person.xml");
 
     return new StaxEventItemWriterBuilder<Person>()
         .name("personXmlFileWriter")
-        .marshaller(personMarshaller())
+        .marshaller(jaxb2Marshaller())
         .resource(outputXml)
         .rootTagName("people")
         .overwriteOutput(true)
@@ -83,7 +80,7 @@ public class XmlReaderWriterJobConfig {
   }
 
   @Bean
-  public Jaxb2Marshaller personMarshaller() {
+  public Jaxb2Marshaller jaxb2Marshaller() {
     Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
     jaxb2Marshaller.setClassesToBeBound(Person.class);
     return jaxb2Marshaller;
